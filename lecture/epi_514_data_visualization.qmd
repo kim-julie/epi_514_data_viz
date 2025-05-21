@@ -203,7 +203,7 @@ library(ggplot2)
 
 -   `ggplot2` is part of `tidyverse` package
 
-```{r, eval = F, warnin = F}
+```{r, eval = F, warning  = F}
 library(tidyverse)
 ```
 
@@ -616,3 +616,7 @@ ggplot(df_long, aes(x = Race, y = Percent, fill = Smoking)) +
 :::
 
 ## Questions?
+
+-   Talk to your neighbors - what questions do you have?
+
+![](images/Neta1.jpg){width="375"}
