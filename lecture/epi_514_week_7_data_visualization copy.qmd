@@ -1,13 +1,13 @@
 ---
 title: "Data Visualization"
-subtitle: "EPI 514 2025 Sp"
+subtitle: "EPI 514 2024 Sp"
 author: "Julie Kim"
 date: "`r Sys.Date()`"
-format:  
-  revealjs: 
-    theme: mytheme.scss
-    scrollable: true
-    auto-stretch: false
+format: pptx
+output:
+  powerpoint_presentation:
+    keep_md: true
+    reference-doc: cosmic-latte.pptx
 editor: visual
 ---
 
@@ -20,10 +20,6 @@ editor: visual
 -   Exercise using `ggplot2` package
 
 -   Poster design
-
-    ::: notes
-    The slides were created using Rmarkdown and its replication material is available on Github for any replication exercise:
-    :::
 
 ## Principles of data visualization
 
@@ -40,93 +36,6 @@ editor: visual
 
     -   Small multiples or repetitions of basic design
 :::
-
-## What's the problem?
-
--   Based on the principles by Edward Tufte, discuss potential problems with this chart with your table members
-
-```{r, warning=F}
-library(ggplot2)
-library(ggthemes)
-
-# Fake data
-df <- data.frame(
-  Category = c("A", "B", "C", "D"),
-  Value = c(23, 45, 12, 38)
-)
-
-# Bad ggplot chart full of chartjunk
-ggplot(df, aes(x = Category, y = Value, fill = Category)) +
-  geom_bar(stat = "identity", color = "black", size = 1.2) +
-  geom_text(aes(label = Value), vjust = -2, size = 6, color = "red", fontface = "italic") +
-  theme_solarized() +  # busy theme
-  theme(
-    plot.background = element_rect(fill = "lightblue", color = "darkblue", size = 2),
-    panel.grid.major = element_line(color = "darkgray", size = 1),
-    panel.grid.minor = element_line(color = "gray", linetype = "dotted"),
-    axis.text = element_text(size = 14, angle = 45, face = "bold", color = "purple"),
-    legend.position = "bottom",
-    legend.background = element_rect(fill = "yellow", color = "orange"),
-    plot.title = element_text(face = "bold.italic", size = 20, color = "darkred", hjust = 0.5)
-  ) +
-  ggtitle("Fancy Results!!!") +
-  ylab("Very Important Numbers") +
-  xlab("Magical Groups") +
-  scale_fill_brewer(palette = "Spectral")
-
-```
-
-## What's the solution?
-
--   Just make it simple
-
-```{r}
-ggplot(df, aes(x = Category, y = Value)) +
-  geom_col(fill = "steelblue") +
-  theme_minimal() +
-  labs(title = "", x = "Category", y = "Value")
-```
-
-## What's the problem?
-
--   Based on the principles by Edward Tufte, discuss potential problems with this chart with your table members
-
-```{r}
-library(ggplot2)
-library(dplyr)
-
-# Create deceptive data
-df <- data.frame(
-  Month = c("Jan", "Feb", "Apr", "May", "Jul", "Aug", "Sep", "Dec"),
-  Product_A = c(100, 120, 130, 128, 135, 160, 155, 158),
-  Product_B = c(100, 102, 125, 124, 122, 129, 128, 170)
-)
-
-# Melt into long format
-library(tidyr)
-df_long <- df %>%
-  pivot_longer(-Month, names_to = "Product", values_to = "Sales")
-
-# Reorder factor levels to show Month inconsistently
-df_long$Month <- factor(df_long$Month, levels = df$Month)
-
-# Misleading line chart
-ggplot(df_long, aes(x = Month, y = Sales, group = Product, color = Product)) +
-  geom_line(size = 1.5) +
-  geom_point(size = 4, shape = 21, fill = "white") +
-  geom_smooth(method = "loess", se = FALSE, span = 0.1, linetype = "dashed") +  # misleading trend
-  theme_light() +
-  labs(
-    title = "",
-    y = "Height (cm)",
-    x = "Month"
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 30, size = 14, face = "italic"),
-    plot.title = element_text(size = 18, color = "darkred", face = "bold.italic"),
-    legend.position = "top"
-  )
-```
 
 ## Principles of data visualization
 
@@ -203,7 +112,7 @@ library(ggplot2)
 
 -   `ggplot2` is part of `tidyverse` package
 
-```{r, eval = F, warnin = F}
+```{r, eval = F}
 library(tidyverse)
 ```
 
@@ -238,7 +147,7 @@ Arguments that are needed:
 
 -   `geom`: short for geometry - specify type of plot
 
-    -   e.g. `geom_point` for scatter plot, `geom_line` for line plots, `geom_histogram` for histogram
+    -   e.g. `geom_point` for scatter plot, `geom_line` for line plots, `geom_histogram` for historgram
     -   Different geometry components require different argument
         -   e.g. `geom_ribbon` allows you to plot area - this requires (`xmin` and `xmax` or `ymin` and `ymax`)
 :::
@@ -550,56 +459,6 @@ ggplot(brfss)+
     -   Make sure you have enough contrast between colors so that the audience can still detect the difference even if the color slightly fades out
 :::
 
-## What's the problem?
-
--   Based on what we learned so far, discuss potential problems with this chart with your table members
-
-```{r, echo=FALSE}
-df <- data.frame(
-  Region = c("Northeast", "South", "Midwest", "West"),
-  COPD_Rate = c(8.2, 9.5, 8.1, 8.0)
-)
-
-ggplot(df, aes(x = "Region", y = COPD_Rate, fill = Region)) +
-  geom_bar(stat = "identity", width = 1) +
-  scale_fill_manual(values = c("dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4"))+
-  coord_polar(theta = "y") +
-  labs(
-    title = "COPD Prevalence by Region",
-    fill = "Region"
-  ) +
-  theme_void()
-```
-
-## What's the problem?
-
--   Based on what we learned so far, discuss potential problems with this chart with your table members
-
-```{r, echo = FALSE}
-library(dplyr)
-library(ggplot2)
-
-df <- data.frame(
-  Race = c("WH", "Black", "Asians", "Hispanic", "AI/AN", "NH Other"),
-  EverSmoker = c(30, 27, 18, 22, 36, 28),
-  NeverSmoker = 100 - c(30, 27, 18, 22, 36, 28)
-)
-
-df_long <- df %>%
-  tidyr::pivot_longer(cols = c(EverSmoker, NeverSmoker), names_to = "Smoking", values_to = "Percent")
-
-ggplot(df_long, aes(x = Race, y = Percent, fill = Smoking)) +
-  geom_col() +
-  coord_flip() +
-  labs(
-    y = "Percent", x = "Race"
-  ) +
-  scale_fill_manual(values = c("darkred", 'darkgreen')) +
-  theme_minimal() +
-  theme(legend.position = 'none')
-
-```
-
 ## Useful resources
 
 ::: incremental
@@ -613,6 +472,8 @@ ggplot(df_long, aes(x = Race, y = Percent, fill = Smoking)) +
 -   ggplot2 cheatsheet: [link](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf)
 
 -   Stackoverflow
+
+-   ChatGPT
 :::
 
 ## Questions?

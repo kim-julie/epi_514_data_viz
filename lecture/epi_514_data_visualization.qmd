@@ -22,7 +22,7 @@ editor: visual
 -   Poster design
 
     ::: notes
-    The slides were created using Rmarkdown and its replication material is available on Github for any replication exercise:
+    The slides were created using Rmarkdown and its replication material is available on Github for any replication exercise: <https://github.com/kim-julie/epi_514_data_viz/tree/main>
     :::
 
 ## Principles of data visualization
@@ -359,7 +359,7 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
 
 ## Plotting - Scatter
 
--   Now you wonder how old are they?
+-   Now you wonder: how old are they?
 
 -   Another option could be using the color instead of creating 12 panes of plots.
 
