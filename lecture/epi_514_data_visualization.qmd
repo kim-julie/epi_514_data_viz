@@ -3,7 +3,7 @@ title: "Data Visualization"
 subtitle: "EPI 514 2025 Sp"
 author: "Julie Kim"
 date: "`r Sys.Date()`"
-format:  
+format:
   revealjs: 
     theme: mytheme.scss
     scrollable: true
@@ -18,8 +18,6 @@ editor: visual
 -   Introduction to `ggplot2` package
 
 -   Exercise using `ggplot2` package
-
--   Poster design
 
     ::: notes
     The slides were created using Rmarkdown and its replication material is available on Github for any replication exercise: <https://github.com/kim-julie/epi_514_data_viz/tree/main>
@@ -41,9 +39,9 @@ editor: visual
     -   Small multiples or repetitions of basic design
 :::
 
-## What's the problem?
+## What are the problems?
 
--   Based on the principles by Edward Tufte, discuss potential problems with this chart with your table members
+-   Based on the principles by Edward Tufte, discuss potential problems of this chart with your table members
 
 ```{r, warning=F}
 library(ggplot2)
@@ -76,9 +74,9 @@ ggplot(df, aes(x = Category, y = Value, fill = Category)) +
 
 ```
 
-## What's the solution?
+## What can be the solution?
 
--   Just make it simple
+-   Focus on the main message
 
 ```{r}
 ggplot(df, aes(x = Category, y = Value)) +
@@ -87,9 +85,9 @@ ggplot(df, aes(x = Category, y = Value)) +
   labs(title = "", x = "Category", y = "Value")
 ```
 
-## What's the problem?
+## What are the problems?
 
--   Based on the principles by Edward Tufte, discuss potential problems with this chart with your table members
+-   Based on the principles by Edward Tufte, discuss potential problems of this chart with your table members
 
 ```{r}
 library(ggplot2)
@@ -130,10 +128,10 @@ ggplot(df_long, aes(x = Month, y = Sales, group = Product, color = Product)) +
 
 ## Principles of data visualization
 
-My advice:
+Additional advice:
 
 ::: incremental
--   Be NICE to your viewers - never assume people will know what you're trying to show.
+-   Be NICE to your viewers - never assume that people will know what you're trying to show
 
     -   ALWAYS include axis titles in plain text (not variable name) and it's scale
 
@@ -141,7 +139,7 @@ My advice:
 
 -   Think about the morale of the story before you plot.
 
-    -   Many journals only allow 4-6 tables + figures in the main text - be strategic about what you want to show.
+    -   Many journals only allow 4-6 tables/figures combined in the main text - be strategic about what you want to show.
 
 -   Visualization is a way of simplifying
 
@@ -156,15 +154,33 @@ My advice:
     -   It might be something that people only read other than your titles - think about the priorities.
     -   Most journals want vectorized image (vectorized pdf, svg, eps, adobe illustrator)
         -   jpeg/jpg, png, etc are sometimes permitted for initial submission, but eventually vectorized image can be required.
-    -   Reviewers comment a lot about image quality, captions, choice of colors and axis labels/scale/titles.
-        -   If image quality is too low, it might appear blurry in your paper.
-        -   Provide details for caption - add details even if you included in your main text.
-        -   Colors - it's not about making it pretty
-            -   Also consider "intuitiveness" of colors.
-        -   Axis labels, scale and titles should be detailed as long as it doesn't hurt your figure
-            -   If using multiple panes in one figure, be consistent with the scales
-    -   Many journals now allow supplementary materials
+:::
+
+## Visualization for publication
+
+::: incremental
+-   At some point of your review process, the reviewers or editors will comment about image quality, captions, choice of colors and axis labels/scale/titles.
+
+    -   If image quality is too low, it might appear blurry in your paper.
+
+    -   Provide details for caption
+
+    -   Add details even if you included in your main text.
+
+    -   Colors
+
+        -   it's not about making it pretty.
+
+        -   Also consider "intuitiveness" of colors.
+
+    -   Axis labels, scale and titles should be detailed as long as it doesn't hurt your figure
+
+        -   If using multiple panes in one figure, be consistent with the scales
+
+        -   Many journals now allow supplementary materials
+
         -   Any sensitivity analysis or background analysis (e.g. describing the sample that is not directly related to your main analysis) typically goes into supplementary figures.
+
         -   Validation (e.g. comparison to other data sources) also goes into supplementary materials.
 :::
 
@@ -173,11 +189,7 @@ My advice:
 ::: incremental
 -   Popular R package for data visualization, particularly well-known for its implementation of the "Grammar of Graphics."
 
--   Allows layering of plots
-
 -   High formatting flexibility
-
-    -   which also means lots of chances to go wrong
 
 -   WIDE variety of visualization options (from scatter plots to maps and 3D plots)
 :::
@@ -228,9 +240,9 @@ Arguments that are needed:
 
         -   x-axis, y-axis : required most of the times
 
-        -   color/fill: only if you're using variable to specify (color for points, fill for area)
+        -   `color`/`fill`: only if you're using variable to specify (color for points, fill for area)
 
-        -   xmin, xmax, ymin, ymax: if you're specifying area
+        -   `xmin`, `xmax`, `ymin`, `ymax`: if you're specifying area
 
         -   and many other required and optional arguments specific for type (`geom`)
 
@@ -240,7 +252,7 @@ Arguments that are needed:
 
     -   e.g. `geom_point` for scatter plot, `geom_line` for line plots, `geom_histogram` for histogram
     -   Different geometry components require different argument
-        -   e.g. `geom_ribbon` allows you to plot area - this requires (`xmin` and `xmax` or `ymin` and `ymax`)
+        -   e.g. `geom_ribbon` allows you to plot area - this requires `xmin` and `xmax` and/or `ymin` and `ymax`
 :::
 
 ## Example - Loading data
@@ -253,8 +265,7 @@ Let's dive directly into some examples. We will use our data after cleaning from
 library(tidyverse)
 library(ggpubr)
 
-brfss <- read_csv("/Users/sojink/Documents/GitHub/epi_514_data_viz/data/individualhw_post.csv") 
- # Change directory and filename to your choice
+brfss <- read_csv("/Users/sojink/Documents/GitHub/epi_514_data_viz/data/individualhw_post.csv") # Change directory and filename to your choice
 ```
 
 ## Plotting - Histogram
@@ -294,7 +305,7 @@ ggplot(data = brfss, mapping = aes(x = avedrnk3))+
 ggplot()+
   geom_histogram(data = brfss, mapping = aes(x = avedrnk3))+
   labs(x = "Number of drinks per day", y = "Count of individuals", 
-       title = "Distribution of alcohol days", subtitle = "Source: BRFSS 2021")
+       title = "Distribution of average alcoholic drinks per day (on days when drank) in past 30", subtitle = "Source: BRFSS 2021")
 ```
 :::
 
@@ -310,12 +321,32 @@ ggplot()+
 ggplot()+
   geom_histogram(data = brfss, mapping = aes(x = avedrnk3))+
   labs(x = "Number of drinks per day", y = "Count of individuals", 
-       title = "Distribution of alcohol days", subtitle = "Source: BRFSS 2021")+
+       title = "Distribution of average alcoholic drinks per day (on days when drank) in past 30", subtitle = "Source: BRFSS 2021")+
   scale_x_continuous(breaks = seq(0, 80, 5))+
   scale_y_continuous(breaks = seq(0, 90000, 10000))
 ```
 
+## Plotting - Histogram
+
+-   Based on what we know about `avedrnk3` variable, we would rather want to look at closer look at numbers between 0-20, instead of 0-8 0
+-   We will add more arguments in:
+    -   `scale_x_continuous`: for x-axis labels
+    -   argument: `limits` to specify values for axis limits
+
+```{r}
+ggplot()+
+  geom_histogram(data = brfss, mapping = aes(x = avedrnk3))+
+  labs(x = "Number of drinks per day", y = "Count of individuals", 
+       title = "Distribution of average alcoholic drinks per day (on days when drank) in past 30", subtitle = "Source: BRFSS 2021")+
+  scale_x_continuous(breaks = seq(0, 20, 5), limits = c(0, 20))+
+  scale_y_continuous(breaks = seq(0, 90000, 10000))
+```
+
 ## Plotting - Scatter
+
+-   For this course scatter plots do not really make sense - why?
+
+-   But we'll still learn how to do this
 
 -   Now, we will start looking at the relationship between variables.
 
@@ -324,9 +355,9 @@ ggplot()+
 -   Any problems here?
 
 ```{r, message = F, warning = T}
-ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
+ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1))+
   geom_point()+
-  labs(x = "Average alcoholic drinks per day ", y = "Days of Marijuana use")
+  labs(x = "Average alcoholic drinks per day", y = "Days of Marijuana use")
 ```
 
 ## Plotting - Scatter
@@ -338,7 +369,7 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
 -   To do this, we can add `facet_wrap` layer on top of it.
 
 ```{r, message = F, warning = T}
-ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
+ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1))+
   geom_point()+
   labs(x = "Average alcoholic drinks per day ", y = "Days of Marijuana use")+
   facet_wrap(~sexvar)
@@ -351,9 +382,9 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
 -   One option to do this could be repeating faceting but also by age.
 
 ```{r, message = F, warning = T}
-ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
+ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1))+
   geom_point()+
-  labs(x = "Average alcoholic drinks per day ", y = "Days of Marijuana use")+
+  labs(x = "Average alcoholic drinks per day", y = "Days of Marijuana use")+
   facet_wrap(sexvar~age_g, ncol = 6)
 ```
 
@@ -364,7 +395,7 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1))+
 -   Another option could be using the color instead of creating 12 panes of plots.
 
 ```{r, message = F, warning = T}
-ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1, col = age_g))+
+ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1, col = age_g))+
   geom_point()+
   labs(x = "Average alcoholic drinks per day ", y = "Days of Marijuana use")+
   facet_wrap(~sexvar)
@@ -375,9 +406,9 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1, col = age_g))+
 -   If the journal your submitting to required black/white-only figures, you can do this using the shape of the points instead of colors.
 
 ```{r, message = F, warning = T}
-ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1, shape = age_g))+
+ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1, shape = age_g))+
   geom_point()+
-  labs(x = "Average number of drinking days", y = "Marijuana use")+
+  labs(x = "Average alcoholic drinks per day", y = "Marijuana use")+
   facet_wrap(~sexvar)
 ```
 
@@ -387,7 +418,7 @@ ggplot(data = brfss, mapping = aes(x = alcday30, y = marijan1, shape = age_g))+
 
 ```{r, message = F, warning = T}
 ggplot(data = brfss, mapping = aes(x = avedrnk3, y = marijan1, shape = age_g))+ 
-  geom_point()+ labs(x = "Average number of drinking days", y = "Marijuana use")+ 
+  geom_point()+ labs(x = "Average alcoholic drinks per day", y = "Marijuana use")+ 
   facet_wrap(~sexvar)+
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 15), 
@@ -467,7 +498,7 @@ brfss%>%
   ungroup()%>%
   group_by(sexvar)%>%
   mutate(denom = sum(num), # calculate count for all race by sex
-         proportion = num/denom)%>%
+         proportion = round(100 * num/denom,2))%>%
   knitr::kable()
 ```
 
@@ -487,7 +518,7 @@ brfss%>%
          proportion = num/denom)%>%
   
   ggplot()+
-  geom_bar(aes(x = sexvar, y = proportion, fill = imprace), stat = 'identity')
+  geom_bar(aes(x = sexvar, y = 100*proportion, fill = imprace), stat = 'identity')
 ```
 
 ## Plotting - Figure formatting
@@ -509,7 +540,7 @@ ggplot(brfss)+
   labs(x = "Sex", y = "Count", title = "Option 1")+
   scale_fill_brewer(palette = 'Pastel2', name = "Race")+
   theme_bw()+
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'right')
 ```
 
 ### Blues
@@ -520,7 +551,7 @@ ggplot(brfss)+
   labs(x = "Sex", y = "Count", title = "Option 2")+
   scale_fill_brewer(palette = 'Blues', name = "Race")+
   theme_bw()+
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'right')
 ```
 :::
 
@@ -535,7 +566,7 @@ ggplot(brfss)+
   scale_fill_brewer(palette = 'Blues', name = "Race")+
   scale_fill_brewer(palette = 'Pastel2', name = "Race")+
   theme_bw()+
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'right')
 ```
 
 ## Other considerations
@@ -550,7 +581,7 @@ ggplot(brfss)+
     -   Make sure you have enough contrast between colors so that the audience can still detect the difference even if the color slightly fades out
 :::
 
-## What's the problem?
+## What are the problems?
 
 -   Based on what we learned so far, discuss potential problems with this chart with your table members
 
@@ -566,12 +597,12 @@ ggplot(df, aes(x = "Region", y = COPD_Rate, fill = Region)) +
   coord_polar(theta = "y") +
   labs(
     title = "COPD Prevalence by Region",
-    fill = "Region"
+    fill = ""
   ) +
   theme_void()
 ```
 
-## What's the problem?
+## What are the problems?
 
 -   Based on what we learned so far, discuss potential problems with this chart with your table members
 
@@ -580,7 +611,7 @@ library(dplyr)
 library(ggplot2)
 
 df <- data.frame(
-  Race = c("WH", "Black", "Asians", "Hispanic", "AI/AN", "NH Other"),
+  Race = c("W", "B", "A", "H", "AI/AN", "O"),
   EverSmoker = c(30, 27, 18, 22, 36, 28),
   NeverSmoker = 100 - c(30, 27, 18, 22, 36, 28)
 )
