@@ -7,6 +7,6 @@ email: sojink@uw.edu
 
 ## How to use this repo.
 
-1. Git clone this repository into your preferred folder system.
+1. Clone this repository into your preferred folder system.
 2. Change path to data to reflect where the data are saved in your file system.
 3. Open lecture/epi_514_data_visualization.qmd and play around with it!
